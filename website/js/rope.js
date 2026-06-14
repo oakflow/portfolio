@@ -6,12 +6,16 @@ const ropeTabLightSrc = 'assets/images/pull-white.svg';
 const ropeTabDarkSrc = 'assets/images/pull-black.svg';
 let devicePixelRatioScale = window.devicePixelRatio || 1;
 
+// cache for loaded images to persist through inactivity
+const imageCache = {};
+
 function preloadRopeTabImages() {
     // Warm the browser cache/decode for both theme images so first pull is instant.
     const sources = [ropeTabLightSrc, ropeTabDarkSrc];
     sources.forEach((src) => {
         const img = new Image();
         img.src = src;
+        imageCache[src] = img; // store in cache
         if (typeof img.decode === 'function') {
             img.decode().catch(() => {
                 // Ignore decode failures; loading by src is still enough to prime cache.
@@ -19,6 +23,26 @@ function preloadRopeTabImages() {
         }
     });
 }
+
+// continuously ensure images stay loaded and cached
+function ensureImagesLoaded() {
+    const sources = [ropeTabLightSrc, ropeTabDarkSrc];
+    sources.forEach((src) => {
+        // if not cached, reload it
+        if (!imageCache[src] || !imageCache[src].src) {
+
+            const img = new Image();
+            img.src = src;
+            imageCache[src] = img;
+            if (typeof img.decode === 'function') {
+                img.decode().catch(() => {});
+            }
+        }
+    });
+}
+
+// check img periodically, per sec, to ensure it's loaded
+setInterval(ensureImagesLoaded, 1000);
 
 ctx.imageSmoothingEnabled = false;        // standard
 ctx.mozImageSmoothingEnabled = false;     // Firefox fallback
@@ -34,7 +58,14 @@ function isTouchDevice() {
 
 function syncRopeTabSource() {
     if (ropeTab) {
-        ropeTab.src = dark ? ropeTabLightSrc : ropeTabDarkSrc;
+        const src = dark ? ropeTabLightSrc : ropeTabDarkSrc;
+        // ensure image is in cache and loaded
+        if (!imageCache[src]) {
+            const img = new Image();
+            img.src = src;
+            imageCache[src] = img;
+        }
+        ropeTab.src = src;
     }
 }
 
@@ -502,6 +533,14 @@ document.addEventListener('mouseup', () => {
         if (dragging) {
             dark = !dark;
             
+            // preload the next theme's image
+            const nextSrc = dark ? ropeTabLightSrc : ropeTabDarkSrc;
+            if (!imageCache[nextSrc]) {
+                const img = new Image();
+                img.src = nextSrc;
+                imageCache[nextSrc] = img;
+            }
+            
             // Add no-transition class to disable transitions during theme change
             document.documentElement.classList.add('no-transition');
             
@@ -532,6 +571,14 @@ document.addEventListener('mouseup', () => {
 document.addEventListener('touchend', () => {
         if (dragging) {
             dark = !dark;
+            
+            // preload next theme's image
+            const nextSrc = dark ? ropeTabLightSrc : ropeTabDarkSrc;
+            if (!imageCache[nextSrc]) {
+                const img = new Image();
+                img.src = nextSrc;
+                imageCache[nextSrc] = img;
+            }
             
             // Add no-transition class to disable transitions during theme change
             document.documentElement.classList.add('no-transition');
