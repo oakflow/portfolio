@@ -378,40 +378,8 @@ html.light .icon-light { display: block; }
     }
 }
 
-.rope-tab-wrapper {
-  position: fixed;
-  left: 0;
-  top: 0;
-  transform-origin: center;
-  pointer-events: none;
-  z-index: 1001;
-  will-change: transform, left, top;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* On mobile, use absolute so rope tab scrolls with page */
-@media (max-width: 600px) {
-    .rope-tab-wrapper {
-        position: absolute;
-    }
-}
-
-.rope-tab {
-  display: block;
-  position: relative;
-  width: 79px;
-  height: auto;
-  image-rendering: pixelated;
-  shape-rendering: crispEdges;
-}
-
-.pixel-art {
-  image-rendering: pixelated;      /* modern browsers */
-  image-rendering: crisp-edges;    /* Firefox */
-  -ms-interpolation-mode: nearest-neighbor; /* legacy */
-}
+/* rope-tab-wrapper / rope-tab / pixel-art removed — bob is now drawn directly
+   on the rope canvas via ctx.drawImage(), so no HTML element is needed */
 
 /* Loading screen */
 #loadingScreen {
