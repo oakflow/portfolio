@@ -5,7 +5,7 @@
   --s: #8f8f8f85;   
 }
 
-html.light {
+[data-theme="light"] {
   --bg: #ffffff;   /* light background */
   --fg: #000000;   /* light foreground text */
 }
@@ -33,6 +33,7 @@ html {
 }
 
 body {
+  margin: 0;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -164,7 +165,8 @@ input, button, textarea, select { font: inherit; }
 
 .subname {
     display: flex;
-    font-size: clamp(9.6px, 2.4vw, 18px);
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(8.5px, 1.85vw, 14px);
     font-weight: 400;
     line-height: 1;
     color: var(--fg);
@@ -173,7 +175,7 @@ input, button, textarea, select { font: inherit; }
     text-align: center;
     white-space: nowrap;
     word-spacing: 0.160rem; /* Adds space between words */
-    padding-bottom: 2rem;
+    padding-bottom: 1.2rem;
     /* overflow: hidden; */
 }
 
@@ -196,8 +198,8 @@ input, button, textarea, select { font: inherit; }
 
 
 .middle {
-    display: flex;             
-    align-items: center;        
+    display: flex;
+    align-items: center;
     justify-content: center;
     z-index: 0;
     padding-top: 1rem;
@@ -240,6 +242,7 @@ input, button, textarea, select { font: inherit; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  position: relative;
   padding: 0;
   margin: 0;
   border-radius: 8px;
@@ -264,49 +267,11 @@ input, button, textarea, select { font: inherit; }
       drop-shadow(calc(-1 * var(--x8)) var(--y8) 0 var(--fg)) 
       */ 
 
-/* hover: slight enlarge + colored glow per icon */
-.github-box .icon-link:hover .githubicon,
-.github-box .icon-link:focus-visible .githubicon {
-  filter: 
-      drop-shadow(var(--x1) var(--y1) 0 var(--s)) /* y is minus */ 
-      drop-shadow(var(--x2) var(--y2) 0 var(--s))
-      drop-shadow(var(--x3) var(--y3) 0 var(--s))
-      drop-shadow(var(--x4) var(--y4) 0 var(--s))
-      drop-shadow(var(--x5) var(--y5) 0 var(--s))
-      drop-shadow(var(--x6) var(--y6) 0 var(--s))
-      drop-shadow(var(--x7) var(--y7) 0 var(--s))
-      drop-shadow(var(--x8) var(--y8) 0 var(--s))
-}
-
-.email-box .icon-link:hover .emailicon,
-.email-box .icon-link:focus-visible .emailicon {
-  z-index: -1; /* Email shadows render behind other icons */
-  filter: 
-      drop-shadow(var(--x1) var(--y1) 0 var(--s)) 
-      drop-shadow(var(--x2) var(--y2) 0 var(--s))
-      drop-shadow(var(--x3) var(--y3) 0 var(--s))
-      drop-shadow(var(--x4) var(--y4) 0 var(--s))
-}
-
-
-.linkedin-box .icon-link:hover .linkedinicon,
-.linkedin-box .icon-link:focus-visible .linkedinicon {
-  filter: 
-      drop-shadow(var(--x1) var(--y1) 0 var(--s)) /* y is minus */ 
-      drop-shadow(var(--x2) var(--y2) 0 var(--s))
-      drop-shadow(var(--x3) var(--y3) 0 var(--s))
-      drop-shadow(var(--x4) var(--y4) 0 var(--s))
-      drop-shadow(var(--x5) var(--y5) 0 var(--s))
-      drop-shadow(var(--x6) var(--y6) 0 var(--s))
-      drop-shadow(var(--x7) var(--y7) 0 var(--s))
-      drop-shadow(var(--x8) var(--y8) 0 var(--s))
-
-}
 
 /* theme switching: show white icons on dark; black on light */
 .icon-light { display: none; }
-html.light .icon-dark  { display: none; }
-html.light .icon-light { display: block; }
+[data-theme="light"] .icon-dark  { display: none; }
+[data-theme="light"] .icon-light { display: block; }
 
 /* reduce motion users */
 @media (prefers-reduced-motion: reduce) {
@@ -328,6 +293,8 @@ html.light .icon-light { display: block; }
   margin-top: auto;
   padding-top: 0.4vh;
   z-index: 10;
+  cursor: default;
+  user-select: none;
 }
 
 /* needed for mobile to act as spacer since footer would be fixed */
@@ -342,20 +309,97 @@ html.light .icon-light { display: block; }
 
 
 .mac {
-    color: var(--fg); 
-    transition: color 255ms ease, text-shadow 255ms ease;
+    color: var(--fg);
+    background-image: linear-gradient(90deg,
+        #7A003C 0%,        #7A003C 33.33%,
+        #999999 33.33%,    #999999 66.66%,
+        #FDBF57 66.66%,    #FDBF57 100%
+    );
+    background-position: 100% 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 2px;
+    padding-bottom: 4px;
+    transition: background-size 350ms ease, color 255ms ease;
     will-change: color;
 }
+
+/* Grow anchored left on hover; shrink anchored right on exit (wipes left → right) */
 .mac:hover {
-    text-shadow: #FDBF57 0px 21px 0px, #495965 0px 42px 0px;
-    color: #7A003C;
+    background-position: 0% 100%;
+    background-size: 100% 2px;
 }
-
-
 
 /* Temporarily disable transitions for instant theme changes */
 .no-transition .mac {
     transition: none !important;
+}
+
+
+.about-marquee {
+    width: var(--hero-width);
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
+    padding-top: 1rem;
+}
+
+.about-track {
+    display: flex;
+    width: max-content;
+}
+
+.about-group {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.about-group a,
+.about-group .about-lang {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(8.5px, 1.85vw, 14px);
+    color: var(--fg);
+    text-decoration: none;
+}
+
+/* English "About Me" — periwinkle */
+.about-group a { color: #b8cff0; }
+[data-theme="light"] .about-group a { color: #4e6fa8; }
+
+/* Language colours — soft pastels on dark, muted mid-tones on light */
+.about-lang[data-lang="fr"] { color: #c9b8f0; }
+.about-lang[data-lang="de"] { color: #f0e2b8; }
+.about-lang[data-lang="es"] { color: #f0c9b8; }
+.about-lang[data-lang="ja"] { color: #b8f0df; }
+.about-lang[data-lang="zh"] { color: #f0d4a8; }
+.about-lang[data-lang="uk"] { color: #f0b8cb; font-family: 'Ubuntu Mono', monospace; }
+.about-lang[data-lang="pt"] { color: #c4f0b8; }
+.about-lang[data-lang="ko"] { color: #b8dff0; }
+
+[data-theme="light"] .about-lang[data-lang="fr"] { color: #7058a8; }
+[data-theme="light"] .about-lang[data-lang="de"] { color: #9e8840; }
+[data-theme="light"] .about-lang[data-lang="es"] { color: #a87050; }
+[data-theme="light"] .about-lang[data-lang="ja"] { color: #3d9474; }
+[data-theme="light"] .about-lang[data-lang="zh"] { color: #a87828; }
+[data-theme="light"] .about-lang[data-lang="uk"] { color: #a84e6f; }
+[data-theme="light"] .about-lang[data-lang="pt"] { color: #559440; }
+[data-theme="light"] .about-lang[data-lang="ko"] { color: #3d7494; }
+.about-lang[data-lang="it"] { color: #f0c8b0; }
+.about-lang[data-lang="ar"] { color: #b0eef0; font-family: 'Noto Kufi Arabic', sans-serif; font-weight: 300; }
+[data-theme="light"] .about-lang[data-lang="it"] { color: #a05830; }
+[data-theme="light"] .about-lang[data-lang="ar"] { color: #2a7a8a; }
+
+
+[data-theme="light"] .about-sep { color: #000000; }
+
+.about-sep {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(8.5px, 1.85vw, 14px);
+    color: #ffffff;
+    opacity: 1;
+    padding: 0 0.4em;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 /* Canvas sits on top but only intercepts clicks on the rope itself */
@@ -365,9 +409,10 @@ html.light .icon-light { display: block; }
     flex: 1;
     position: fixed;
     inset: 0;
-    pointer-events: none; /* Don't block clicks to page elements */
+    pointer-events: none;
     touch-action: none;
-    z-index: 1000; /* Ensure it's on top */
+    z-index: 1000;
+    will-change: transform;
 }
 
 /* On mobile, use absolute so canvas scrolls with page */
@@ -421,18 +466,18 @@ html.light .icon-light { display: block; }
         justify-content: center;
         gap: 1rem;
     }
-    
+
     .icon-row {
         flex-direction: column;
         gap: 1.5rem;
         align-items: center;
         padding: 20%;
     }
-    
+
     .name {
-        font-size: clamp(24px, 10vw, 45px);
+        font-size: clamp(32px, 11vw, 70px);
     }
-    
+
     .subname {
         font-size: clamp(8px, 3vw, 14px);
         text-align: center;

@@ -5,7 +5,7 @@ const ebox = document.querySelector('.email-box');
 
 
 gbox.addEventListener('mouseenter', () => {
-    
+
     x1 = - Math.floor((Math.random() * 100) + 50);
     y1 = - Math.floor((Math.random() * 40) + 20);
     x2 = - Math.floor((Math.random() * 100) + 50);

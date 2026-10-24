@@ -15,7 +15,7 @@ let bobDark  = null; // black bob shown in light mode
 let bobSize  = computeBobSize(); // CSS pixels
 
 function computeBobSize() {
-    const base = IS_TOUCH ? 74 : 85;
+    const base = IS_TOUCH ? 81 : 95;
     if (!IS_TOUCH) {
         const maxAllowed = window.innerWidth * 0.1315;
         if (base > maxAllowed) return maxAllowed;
@@ -48,14 +48,9 @@ function rasterizeSVG(src) {
             const oc = document.createElement('canvas');
             oc.width = oc.height = physSize;
             const oc2d = oc.getContext('2d');
-            if (physSize >= 170) {
-                // At or above art resolution: nearest-neighbour preserves crispness
-                oc2d.imageSmoothingEnabled = false;
-            } else {
-                // Below art resolution: bilinear gives smooth, symmetric edges
-                oc2d.imageSmoothingEnabled = true;
-                oc2d.imageSmoothingQuality = 'high';
-            }
+            // Always nearest-neighbour: bilinear at non-integer ratios (e.g. 170→128 at DPR 1.5)
+            // bleeds pixel-art edges together. Nearest-neighbour stays crisp at any DPR.
+            oc2d.imageSmoothingEnabled = false;
             oc2d.drawImage(mid, 0, 0, physSize, physSize);
 
             resolve(oc);
@@ -67,8 +62,8 @@ function rasterizeSVG(src) {
 
 function loadBobs() {
     return Promise.all([
-        rasterizeSVG('assets/images/pull-white.svg'),
-        rasterizeSVG('assets/images/pull-black.svg'),
+        rasterizeSVG('../assets/images/pull-white.svg'),
+        rasterizeSVG('../assets/images/pull-black.svg'),
     ]).then(([light, dark_bob]) => {
         bobLight = light;
         bobDark  = dark_bob;
@@ -77,8 +72,9 @@ function loadBobs() {
 
 loadBobs();
 
-// THEME STATE 
-let dark = true;
+// THEME STATE
+let dark = localStorage.getItem('theme') !== 'light';
+if (!dark) document.documentElement.setAttribute('data-theme', 'light');
 
 // CANVAS SETUP 
 canvas.width  = window.innerWidth;
@@ -186,12 +182,13 @@ let point20 = _pts.point20;
 
 // RESIZE
 function resizeCanvas() {
+    const prevDPR = devicePixelRatioScale;
     syncCanvasSize();
     L = window.innerWidth < 400 ? 2.5 : 5;
 
-    // Recompute bob size; re-rasterize only if the size actually changed
+    // re-rasterize if bob CSS size changed OR if DPR changed (zoom)
     const newSize = computeBobSize();
-    if (Math.abs(newSize - bobSize) > 0.5) {
+    if (Math.abs(newSize - bobSize) > 0.5 || devicePixelRatioScale !== prevDPR) {
         bobSize = newSize;
         loadBobs(); // async, old canvases stay active until new ones resolve
     }
@@ -285,7 +282,7 @@ function draw() {
     if (bob) {
         ctx.save();
         ctx.imageSmoothingEnabled = false;
-        ctx.translate(point20.x, point20.y - scrollAdjust);
+        ctx.translate(point20.x + (dark ? 1.7 : 0), point20.y - scrollAdjust);
         ctx.rotate(bobAngle);
         // Draw at bobSize CSS pixels; DPR transform maps that to physSize physical
         // pixels which is exactly the size the canvas was rasterized at → 1:1, no scaling
@@ -402,18 +399,16 @@ function check() {
 // shared theme toggle logic used by both mouse and touch release
 function applyThemeToggle() {
     dark = !dark;
+    const newTheme = dark ? 'dark' : 'light';
 
-    // Disable transitions for the instant theme swap, then re-enable for hovers
-    document.documentElement.classList.add('no-transition');
-    if (dark) {
-        document.documentElement.classList.remove('light');
-    } else {
-        document.documentElement.classList.add('light');
-    }
-    document.documentElement.offsetHeight; // flush layout so change is atomic
-    setTimeout(() => {
-        document.documentElement.classList.remove('no-transition');
-    }, 50);
+    requestAnimationFrame(() => {
+        document.documentElement.classList.add('no-transition');
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        requestAnimationFrame(() => {
+            document.documentElement.classList.remove('no-transition');
+        });
+    });
 }
 
 document.addEventListener('mouseup', () => {
@@ -429,7 +424,10 @@ document.addEventListener('touchend', () => {
 });
 
 // ANIMATION LOOP
-function loop() {
+const FIXED_DT = 1000 / 60;
+let lastTime = 0;
+
+function physicsStep() {
     check();
     updatePoint(point2);
     updatePoint(point3);
@@ -469,8 +467,23 @@ function loop() {
     applyConstraint(point17, point18);
     applyConstraint(point18, point19);
     applyConstraint(point19, point20);
+}
+
+function loop(timestamp) {
+    // cap to avoid spiral of death
+    const elapsed = lastTime ? Math.min(timestamp - lastTime, 100) : FIXED_DT;
+    lastTime = timestamp;
+
+    // run extra steps for any dropped frames so the wiggle stays smooth
+    const steps = Math.max(1, Math.round(elapsed / FIXED_DT));
+    for (let s = 0; s < steps; s++) physicsStep();
+
     draw();
     requestAnimationFrame(loop);
 }
 
-loop();
+window.addEventListener('load', () => {
+    // run physics silently through the initial offset phase so rope is moving on load
+    for (let i = 0; i < 8; i++) physicsStep();
+    requestAnimationFrame(loop);
+});

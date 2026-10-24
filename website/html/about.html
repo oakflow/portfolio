@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="../assets/icons/x.png">
+  <link rel="stylesheet" href="../css/about.css">
+  <title>About</title>
+</head>
+<body>
+
+  <div class="page-wrap">
+  <aside class="sidebar">
+    <div class="s-header-row">
+      <div class="s-name">A-S.am</div>
+      <a class="s-back" href="index.html" aria-label="Home">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1.5 9L12 2L22.5 9L21 9V22H3V9Z M9.5 12H14.5V22H9.5Z"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="s-divider"></div>
+
+    <nav class="s-nav">
+      <a href="#about" class="active"><span class="num">01</span> About</a>
+      <a href="#projects"><span class="num">02</span> Projects</a>
+      <a href="#skills"><span class="num">03</span> Skills</a>
+    </nav>
+
+    <div class="s-divider"></div>
+
+    <div class="s-footer-row">
+      <div class="s-meta">
+        Hamilton · UTC-5<br>
+        Ontario, Canada
+      </div>
+      <div class="theme-segmented" role="button" aria-label="Toggle theme">
+        <span class="theme-slider"></span>
+        <span class="theme-half" data-side="sun">
+          <svg width="9.6" height="9.6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4"/>
+            <line x1="12" y1="2"     x2="12" y2="5"/>
+            <line x1="12" y1="19"    x2="12" y2="22"/>
+            <line x1="2"  y1="12"    x2="5"  y2="12"/>
+            <line x1="19" y1="12"    x2="22" y2="12"/>
+            <line x1="4.22"  y1="4.22"  x2="6.34"  y2="6.34"/>
+            <line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/>
+            <line x1="4.22"  y1="19.78" x2="6.34"  y2="17.66"/>
+            <line x1="17.66" y1="6.34"  x2="19.78" y2="4.22"/>
+          </svg>
+        </span>
+        <span class="theme-half" data-side="moon">
+          <svg width="9.6" height="9.6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </span>
+      </div>
+    </div>
+  </aside>
+
+  <main>
+
+    <section id="about">
+      <div class="section-label"><span class="label-num">01</span><span class="label-sep"> · </span> About</div>
+      <p>
+        I'm <strong>Sam Abdulhameed</strong>, a computer science student. I enjoy building at the intersection
+        of software, data, and business, from tools that have solved personal problems to full-stack applications.
+      </p>
+      <p>
+        I'm currently working on a few projects, including a frictionless language learning tool called Reperio. I also recently worked on a data automation and system migration project at Qatar Airways.
+      </p>
+      <p>
+        I care about writing software that is detailed, deliberate, and does not get in the way.
+      </p>
+    </section>
+
+    <section id="projects">
+      <div class="section-label"><span class="label-num">02</span><span class="label-sep"> · </span> Projects</div>
+
+      <div class="proj-list">
+
+        <div class="proj">
+          <div class="proj-head">
+            <div class="proj-title">Nutraitio</div>
+          </div>
+          <p class="proj-desc">
+            A personalized tool that builds dietary plans and advice around each user,
+            taking their location, allergens, and religious dietary restrictions into account.
+            Built as a full-stack app, with load testing and CI/CD from the start.
+          </p>
+          <div class="proj-tech"><span class="t-python">Python</span><span class="t-fastapi">FastAPI</span><span class="t-react">React</span><span class="t-aws">AWS</span><span class="t-k6">k6</span><span class="t-gha">GitHub Actions</span></div>
+        </div>
+
+        <div class="proj">
+          <a class="proj-head proj-link" href="https://github.com/oakflow/ExSQL" target="_blank" aria-label="View ExSQL on GitHub">
+            <div class="proj-title">ExSQL</div>
+            <span class="proj-arrow"><svg width="10.4" height="10.4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></span>
+          </a>
+          <p class="proj-desc">
+            A toolkit for tedious SQL chores, like turning Excel rows into INSERT lists, pulling IDs
+            from logs, and diffing lists. Built as a single HTML page with nothing to install.
+          </p>
+          <div class="proj-tech"><span class="t-js">JavaScript</span><span class="t-html">HTML</span><span class="t-css">CSS</span></div>
+        </div>
+
+        <div class="proj">
+          <a class="proj-head proj-link" href="https://github.com/oakflow/SubwayRouter" target="_blank" aria-label="View SubwayRouter on GitHub">
+            <div class="proj-title">SubwayRouter</div>
+            <span class="proj-arrow"><svg width="10.4" height="10.4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></span>
+          </a>
+          <p class="proj-desc">
+            Finds optimal routes across the London Underground and DLR networks. Built and tested on
+            real London network data, but works with any transit dataset.
+          </p>
+          <div class="proj-tech"><span class="t-python">Python</span><span class="t-pandas">pandas</span><span class="t-numpy">NumPy</span><span class="t-matplotlib">Matplotlib</span></div>
+        </div>
+
+        <div class="proj">
+          <div class="proj-head">
+            <div class="proj-title">Reperio</div>
+          </div>
+          <p class="proj-desc">
+            A browser extension for learning languages as you browse. Look up any word on a page and get
+            its definition instantly, with OCR to read text inside images and caching to keep lookups fast.
+          </p>
+          <div class="proj-tech"><span class="t-js">JavaScript</span><span class="t-html">HTML</span><span class="t-css">CSS</span><span class="t-ocr">OCR</span><span class="t-api">Dictionary API</span></div>
+        </div>
+
+        <div class="proj">
+          <a class="proj-head proj-link" href="https://github.com/oakflow/Peeker" target="_blank" aria-label="View Peeker on GitHub">
+            <div class="proj-title">Peeker</div>
+            <span class="proj-arrow"><svg width="10.4" height="10.4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></span>
+          </a>
+          <p class="proj-desc">
+            A lightweight CLI for at-a-glance system info: memory, CPU and process usage, network, disk,
+            and git status. Zero dependencies, just Bash.
+          </p>
+          <div class="proj-tech"><span class="t-bash">Bash</span></div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="section-label"><span class="label-num">03</span><span class="label-sep"> · </span> Skills</div>
+
+      <div class="skills-grid">
+        <div>
+          <div class="skill-group-label">Languages</div>
+          <div class="skill-tags">
+            <span class="skill-tag t-python">Python</span>
+            <span class="skill-tag t-sql">SQL</span>
+            <span class="skill-tag t-js">JavaScript</span>
+            <span class="skill-tag t-ts">TypeScript</span>
+            <span class="skill-tag t-java">Java</span>
+            <span class="skill-tag t-elm">Elm</span>
+            <span class="skill-tag t-c">C</span>
+            <span class="skill-tag t-bash">Bash</span>
+            <span class="skill-tag t-html">HTML</span>
+            <span class="skill-tag t-css">CSS</span>
+          </div>
+        </div>
+        <div>
+          <div class="skill-group-label">Frameworks</div>
+          <div class="skill-tags">
+            <span class="skill-tag t-fastapi">FastAPI</span>
+            <span class="skill-tag t-react">React</span>
+            <span class="skill-tag t-react">React Native</span>
+            <span class="skill-tag t-springboot">Spring Boot</span>
+            <span class="skill-tag t-expo">Expo</span>
+          </div>
+        </div>
+        <div>
+          <div class="skill-group-label">Databases</div>
+          <div class="skill-tags">
+            <span class="skill-tag t-postgres">PostgreSQL</span>
+            <span class="skill-tag t-redis">Redis</span>
+          </div>
+        </div>
+        <div>
+          <div class="skill-group-label">DevOps & Cloud</div>
+          <div class="skill-tags">
+            <span class="skill-tag t-docker">Docker</span>
+            <span class="skill-tag t-aws">AWS</span>
+            <span class="skill-tag t-gha">GitHub Actions</span>
+            <span class="skill-tag t-linux">Linux</span>
+          </div>
+        </div>
+        <div>
+          <div class="skill-group-label">Tools & Testing</div>
+          <div class="skill-tags">
+            <span class="skill-tag t-git">Git</span>
+            <span class="skill-tag t-postman">Postman</span>
+            <span class="skill-tag t-curl">cURL</span>
+            <span class="skill-tag t-junit">JUnit</span>
+            <span class="skill-tag t-k6">k6</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  </div>
+
+  <div class="about-footer">© 2026</div>
+
+  <script src="../js/about.js"></script>
+
+</body>
+</html>

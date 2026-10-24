@@ -1,0 +1,461 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #000;
+  --fg: #fff;
+}
+
+[data-theme="light"] {
+  --bg: #fff;
+  --fg: #000;
+}
+
+::selection { background: var(--fg); color: var(--bg); }
+
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+body { animation: page-enter 1.2s cubic-bezier(0, 0, 0.2, 1) both; }
+
+
+html {
+  font-family: 'Space Mono', monospace;
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+html::-webkit-scrollbar { display: none; }
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+.page-wrap {
+  display: flex;
+  width: 100%;
+  max-width: 928px;
+  padding: 0 19.2px;
+}
+
+/* ── SIDEBAR ─────────────────────────────────────── */
+
+.sidebar {
+  position: sticky;
+  top: 50%;
+  transform: translateY(-50%);
+  align-self: flex-start;
+  width: 176px;
+  flex-shrink: 0;
+  padding: 0 28.8px 0 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.s-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.s-name {
+  font-family: 'Space Mono', monospace;
+  font-size: 10.4px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--fg);
+  line-height: 1.3;
+}
+
+.s-role {
+  font-size: 8.8px;
+  font-weight: 300;
+  color: var(--fg);
+  margin-top: 4px;
+  line-height: 1.6;
+}
+
+.theme-segmented {
+  position: relative;
+  display: flex;
+  border: 1px solid var(--fg);
+  cursor: pointer;
+  user-select: none;
+  transition: border-color 0.3s ease;
+}
+
+.theme-slider {
+  position: absolute;
+  inset: 0;
+  width: 50%;
+  background: var(--fg);
+  transform: translateX(100%);
+  transition: transform 0.25s ease, background 0.3s ease;
+  pointer-events: none;
+}
+
+[data-theme="light"] .theme-slider {
+  transform: translateX(0);
+}
+
+.no-transition .theme-slider {
+  transition: none !important;
+}
+
+.theme-half {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 5.6px;
+  position: relative;
+  z-index: 1;
+}
+
+[data-side="sun"]  { color: #fff; }
+[data-side="moon"] { color: #000; }
+
+.s-divider {
+  width: 100%;
+  border: none;
+  border-top: 1px solid var(--fg);
+  margin: 22.4px 0;
+}
+
+.s-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.s-nav a {
+  display: flex;
+  align-items: baseline;
+  gap: 11.2px;
+  width: fit-content;
+  font-size: 9.6px;
+  font-weight: 300;
+  color: var(--fg);
+  text-decoration: none;
+  padding: 5.6px 0;
+  letter-spacing: 0.01em;
+  background-image: linear-gradient(90deg, var(--fg) 0%, var(--fg) 100%);
+  background-position: 100% 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  transition: font-weight 0.1s ease, background-size 320ms ease;
+}
+
+.s-nav a .num {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  font-weight: 400;
+  color: var(--fg);
+  min-width: 12.8px;
+}
+
+.s-nav a:hover,
+.s-nav a.active { font-weight: 500; }
+
+/* Grow anchored left on hover; shrink anchored right on exit (wipes left → right) */
+.s-nav a:hover { background-position: 0% 100%; background-size: 100% 1px; }
+
+.s-nav a:hover .num,
+.s-nav a.active .num { font-weight: 500; }
+
+.s-back {
+  color: var(--fg);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.s-back svg {
+  fill-opacity: 0;
+  transition: fill-opacity 0.25s ease;
+}
+
+.s-back:hover svg {
+  fill-opacity: 1;
+}
+
+
+.s-footer-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.theme-segmented { margin-bottom: 3.6px; }
+
+.s-meta {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  font-weight: 400;
+  color: var(--fg);
+  line-height: 1.9;
+}
+
+/* ── MAIN CONTENT ────────────────────────────────── */
+
+main {
+  flex: 1;
+  padding: 53.2px 0 112px 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+section {
+  width: 100%;
+  max-width: 656px;
+  margin-bottom: 96px;
+}
+
+#about      { scroll-margin-top: 53.2px; }
+#projects { scroll-margin-top: 60px; }
+#skills     { scroll-margin-top: 60px; }
+
+.section-label {
+  font-family: 'Newsreader', serif;
+  font-size: 28.8px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  margin-bottom: 28.8px;
+}
+
+.section-label { color: var(--fg); }
+
+.label-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.5em;
+  font-weight: 400;
+  vertical-align: middle;
+  letter-spacing: 0;
+}
+
+.label-sep {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.5em;
+  font-weight: 400;
+  vertical-align: middle;
+  margin-right: 4.8px;
+}
+
+p {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.85;
+  color: var(--fg);
+  max-width: 608px;
+  margin-bottom: 16px;
+}
+
+p:last-child { margin-bottom: 0; }
+
+p strong {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+p a {
+  color: var(--fg);
+  text-decoration: underline;
+  text-underline-offset: 2.4px;
+  text-decoration-color: var(--fg);
+}
+
+/* ── PROJECTS ────────────────────────────────────── */
+
+.proj-list {
+  display: flex;
+  flex-direction: column;
+  gap: 35.2px;
+}
+
+.proj-head {
+  display: flex;
+  align-items: center;
+  gap: 9.6px;
+  margin-bottom: 6.4px;
+}
+
+.proj-title {
+  font-family: 'Newsreader', serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--fg);
+  line-height: 1.2;
+}
+
+/* Whole heading is the link; arrow animation is driven by about.js */
+.proj-link {
+  color: var(--fg);
+  text-decoration: none;
+  width: fit-content;
+}
+
+.proj-arrow {
+  display: flex;
+  overflow: hidden;
+  padding: 2px;
+}
+
+.proj-arrow svg { display: block; }
+
+p.proj-desc {
+  font-size: 11.2px;
+  font-weight: 300;
+  line-height: 1.7;
+  max-width: 608px;
+  margin-bottom: 8px;
+}
+
+/* Tech colours share one palette with the index marquee: each tech only picks a
+   hue (--h); saturation + lightness come from the palette, so every colour sits
+   on the same pale "level". Dark: hsl(h 65% 83%), light: hsl(h 35% 45%).
+   Used by project tech lines and skill boxes. */
+:root                { --pal-s: 65%; --pal-l: 83%; }
+[data-theme="light"] { --pal-s: 35%; --pal-l: 45%; }
+
+.proj-tech {
+  display: flex;
+  flex-wrap: wrap;
+  font-family: 'Space Mono', monospace;
+  font-size: 11.2px;
+  letter-spacing: 0.02em;
+}
+
+.proj-tech span {
+  color: hsl(var(--h) var(--pal-s) var(--pal-l));
+}
+
+.proj-tech span + span::before {
+  content: '·';
+  margin: 0 0.6em;
+  color: var(--fg);
+}
+
+/* Hue only (0–360). Pick from the tech's brand colour. */
+.t-js         { --h: 50;  }  /* yellow   */
+.t-html       { --h: 18;  }  /* orange-red */
+.t-css        { --h: 242; }  /* blue     */
+.t-ocr        { --h: 270; }  /* violet   */
+.t-api        { --h: 330; }  /* pink     */
+.t-python     { --h: 205; }  /* sky blue */
+.t-fastapi    { --h: 165; }  /* teal-green */
+.t-react      { --h: 188; }  /* cyan     */
+.t-aws        { --h: 32;  }  /* orange   */
+.t-k6         { --h: 268; }  /* violet   */
+.t-gha        { --h: 238; }  /* periwinkle */
+.t-pandas     { --h: 325; }  /* magenta  */
+.t-numpy      { --h: 195; }  /* blue-cyan */
+.t-matplotlib { --h: 24;  }  /* orange   */
+.t-bash       { --h: 110; }  /* green    */
+.t-java       { --h: 4;   }  /* red      */
+.t-ts         { --h: 220; }  /* blue     */
+.t-sql        { --h: 178; }  /* teal     */
+.t-elm        { --h: 193; }  /* blue     */
+.t-c          { --h: 0; --pal-s: 0%; }  /* grey (palette lightness, no saturation) */
+.t-springboot { --h: 120; }  /* green    */
+.t-expo       { --h: 0; --pal-s: 0%; }  /* grey     */
+.t-postgres   { --h: 212; }  /* blue     */
+.t-redis      { --h: 0;   }  /* red      */
+.t-docker     { --h: 200; }  /* blue     */
+.t-linux      { --h: 45;  }  /* gold     */
+.t-git        { --h: 10;  }  /* red-orange */
+.t-postman    { --h: 28;  }  /* orange   */
+.t-curl       { --h: 210; }  /* blue     */
+.t-junit      { --h: 140; }  /* green    */
+
+/* ── SKILLS ──────────────────────────────────────── */
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 38.4px 32px;
+}
+
+.skill-group-label {
+  font-family: 'Newsreader', serif;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--fg);
+  margin-bottom: 12.8px;
+}
+
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5.6px;
+}
+
+.skill-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 11.2px;
+  font-weight: 400;
+  --tc: hsl(var(--h) var(--pal-s) var(--pal-l));
+  color: var(--tc, var(--fg));
+  border: 1px solid var(--tc, var(--fg));
+  padding: 5px 13.2px;
+  letter-spacing: 0.02em;
+  transition: background 0.15s ease, color 0.15s ease;
+  cursor: default;
+  user-select: none;
+}
+
+.skill-tag:hover {
+  background: var(--tc, var(--fg));
+  color: var(--bg);
+}
+
+/* ── FOOTER ──────────────────────────────────────── */
+
+.about-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: 'Newsreader', serif;
+  font-size: clamp(6.4px, 1vw, 9.6px);
+  color: var(--bg);
+  background-color: var(--fg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2vh;
+  min-height: 16px;
+  line-height: 1;
+  padding-top: 10.2px;
+  padding-bottom: 8.4px;
+  cursor: default;
+  user-select: none;
+  z-index: 10;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ── MOBILE ──────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .page-wrap { flex-direction: column; padding: 0 19.2px; }
+  .sidebar { position: relative; top: 0; width: 100%; padding: 22.4px 0 0; }
+  .s-meta { display: none; }
+  main { padding: 32px 0 64px; }
+  .skills-grid { grid-template-columns: 1fr 1fr; gap: 28.8px 19.2px; }
+}
+
+@media (max-width: 480px) {
+  .skills-grid { grid-template-columns: 1fr; }
+}
