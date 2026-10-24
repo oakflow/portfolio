@@ -62,8 +62,8 @@ function rasterizeSVG(src) {
 
 function loadBobs() {
     return Promise.all([
-        rasterizeSVG('../assets/images/pull-white.svg'),
-        rasterizeSVG('../assets/images/pull-black.svg'),
+        rasterizeSVG('assets/images/pull-white.svg'),
+        rasterizeSVG('assets/images/pull-black.svg'),
     ]).then(([light, dark_bob]) => {
         bobLight = light;
         bobDark  = dark_bob;
