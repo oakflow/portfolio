@@ -61,7 +61,7 @@ document.querySelectorAll('.proj-link').forEach(link => {
   link.addEventListener('mouseleave', () => play(false));
 });
 
-document.querySelector('.s-back').addEventListener('click', e => {
+document.querySelectorAll('.s-back, .s-name').forEach(el => el.addEventListener('click', e => {
   e.preventDefault();
   const href = e.currentTarget.href;
   window.scrollTo(0, 0);
@@ -70,4 +70,4 @@ document.querySelector('.s-back').addEventListener('click', e => {
   document.body.style.transition = 'transform 0.7s cubic-bezier(0.4,0,0.6,1)';
   document.body.style.transform = 'translateY(100vh)';
   setTimeout(() => { window.location.href = href; }, 750);
-});
+}));

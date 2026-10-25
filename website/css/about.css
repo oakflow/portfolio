@@ -67,6 +67,7 @@ body {
 }
 
 .s-name {
+  text-decoration: none;
   font-family: 'Space Mono', monospace;
   font-size: 10.4px;
   font-weight: 500;
@@ -127,7 +128,7 @@ body {
   width: 100%;
   border: none;
   border-top: 1px solid var(--fg);
-  margin: 22.4px 0;
+  margin: 16px 0;
 }
 
 .s-nav {
@@ -187,6 +188,23 @@ body {
   fill-opacity: 1;
 }
 
+
+/* Contact icons: a small row; icons lift slightly on hover */
+.s-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 14.4px;
+  margin-bottom: 5.6px; /* matches .s-nav a's top padding, so both divider gaps are equal */
+}
+
+.s-links a {
+  display: flex;
+  color: var(--fg);
+  transition: transform 0.2s ease;
+}
+
+.s-links a:hover { transform: translateY(-2px); }
 
 .s-footer-row {
   display: flex;
