@@ -61,9 +61,21 @@ document.querySelectorAll('.proj-link').forEach(link => {
   link.addEventListener('mouseleave', () => play(false));
 });
 
+// overscroll area matches footer, but only once the enter animation is done
+function setOverscrollFooter(on) {
+  html.style.transition = 'none';
+  html.classList.toggle('overscroll-footer', on);
+  html.offsetHeight;
+  html.style.transition = '';
+}
+document.body.addEventListener('animationend', e => {
+  if (e.target === document.body) setOverscrollFooter(true);
+});
+
 document.querySelectorAll('.s-back, .s-name').forEach(el => el.addEventListener('click', e => {
   e.preventDefault();
   const href = e.currentTarget.href;
+  setOverscrollFooter(false);
   window.scrollTo(0, 0);
   document.body.style.animation = 'none';
   document.body.offsetHeight;

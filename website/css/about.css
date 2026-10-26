@@ -37,7 +37,10 @@ body {
   min-height: 100vh;
   display: flex;
   justify-content: center;
+  background: var(--bg);
 }
+
+html.overscroll-footer { background: var(--fg); }
 
 .page-wrap {
   display: flex;
@@ -468,8 +471,27 @@ p.proj-desc {
 
 @media (max-width: 768px) {
   .page-wrap { flex-direction: column; padding: 0 19.2px; }
-  .sidebar { position: relative; top: 0; width: 100%; padding: 22.4px 0 0; }
+  /* sidebar turns to normal block at the top,  transform must be reset too. */
+  .sidebar { position: relative; top: 0; transform: none; width: 100%; padding: 28px 0 0; }
+  .s-name { font-size: 13px; }
+  .s-back svg { width: 15px; height: 15px; }
+  .s-nav { flex-direction: row; flex-wrap: wrap; gap: 4px 22px; }
+  .s-nav a { font-size: 12px; gap: 8px; }
+  .s-nav a .num { font-size: 10px; min-width: 0; }
+  .s-links { gap: 20px; }
+  .s-links svg { transform: scale(1.2); }
   .s-meta { display: none; }
+
+  /* grid so theme toggle can share the contact-icon row instead of sitting alone */
+  .sidebar { display: grid; grid-template-columns: 1fr auto; }
+  .s-header-row, .s-nav, .s-divider { grid-column: 1 / -1; }
+  .s-header-row               { grid-row: 1; }
+  .s-header-row + .s-divider  { grid-row: 2; }
+  .s-nav                      { grid-row: 3; }
+  .s-links                    { grid-row: 4; grid-column: 1; }
+  .s-footer-row               { grid-row: 4; grid-column: 2; align-self: center; margin: 14.4px 0 5.6px; }
+  .s-links + .s-divider       { grid-row: 5; }
+  .theme-segmented            { margin-bottom: 0; }
   main { padding: 32px 0 64px; }
   .skills-grid { grid-template-columns: 1fr 1fr; gap: 28.8px 19.2px; }
 }
