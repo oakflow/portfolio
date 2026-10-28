@@ -10,9 +10,13 @@ html.classList.add('no-transition');
 applyTheme(localStorage.getItem('theme') || 'dark');
 requestAnimationFrame(() => requestAnimationFrame(() => html.classList.remove('no-transition')));
 
+let themeAnimTimer;
 document.querySelector('.theme-segmented').addEventListener('click', () => {
   const newTheme = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
   requestAnimationFrame(() => {
+    html.classList.add('theme-anim');
+    clearTimeout(themeAnimTimer);
+    themeAnimTimer = setTimeout(() => html.classList.remove('theme-anim'), 350);
     html.classList.add('no-transition');
     applyTheme(newTheme);
     requestAnimationFrame(() => html.classList.remove('no-transition'));

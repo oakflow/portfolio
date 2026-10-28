@@ -114,6 +114,12 @@ html.overscroll-footer { background: var(--fg); }
   transition: none !important;
 }
 
+/* fade colours on theme switch like home */
+html.theme-anim *:not(.theme-slider) {
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease,
+              fill 0.3s ease, stroke 0.3s ease, text-decoration-color 0.3s ease !important;
+}
+
 .theme-half {
   flex: 1;
   display: flex;
